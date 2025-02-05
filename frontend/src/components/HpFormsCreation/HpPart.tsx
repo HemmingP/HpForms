@@ -27,23 +27,25 @@ export const EmptyInput: React.FC<emptyProps> = (props) => {
   );
 };
 
-const HpInput: React.FC<inputProps & id> = (props) => {
+const HpInput: React.FC<inputProps & id & IOptions> = (props) => {
+  const { openpartoptions, ...restProps } = props;
   return (
     <input
+      {...(restProps as inputProps)}
       id={props.id}
       className={`${styles.input}`}
       disabled={true}
-      {...(props as inputProps)}
     />
   );
 };
-const HpTextarea: React.FC<textareaProps & id> = (props) => {
+const HpTextarea: React.FC<textareaProps & id & IOptions> = (props) => {
+  const { openpartoptions, ...restProps } = props;
   return (
     <textarea
+      {...(restProps as textareaProps)}
       id={props.id}
       className={`${styles.input}`}
       disabled={true}
-      {...(props as textareaProps)}
     />
   );
 };
@@ -169,8 +171,8 @@ const HpPart: React.FC<formInput & IOptions> = (props) => {
         )}
         <button
           className={`${styles["part-options"]}`}
-          onClick={() => {
-            openpartoptions(partkey, variant);
+          onClick={(e) => {
+            openpartoptions(e, partkey, variant);
           }}
         >
           <img src="/menu-icons/ellipsis-v-svgrepo-com.svg" />

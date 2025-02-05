@@ -130,7 +130,7 @@ export default function FormCreation() {
             },
             {
               pageName: "Second",
-              pageIcon: "/menu-icons/crown-svgrepo-com.svg",
+              pageIcon: "/frontend/menu-icons/crown-svgrepo-com.svg",
               layouts: [
                 {
                   columnsAmount: 2,

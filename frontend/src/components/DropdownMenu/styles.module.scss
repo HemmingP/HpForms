@@ -1,0 +1,29 @@
+.dropdown-menu {
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  position: fixed;
+  transform-origin: top;
+  transition: ease-out transform 0.2s;
+
+  &.closed {
+    transform: scaleY(0);
+  }
+
+  .menu-option,
+  .menu-title {
+    padding: 0.125rem 0.25rem;
+    display: flex;
+    gap: 0.5rem;
+    background-color: darkslategrey;
+  }
+  .menu-option {
+    &:hover {
+      background-color: darkgrey;
+    }
+  }
+
+  br {
+    height: 1rem;
+  }
+}

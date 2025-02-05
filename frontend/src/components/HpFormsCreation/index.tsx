@@ -28,11 +28,17 @@ import PageBubbles from "./PageBubbles";
 import { findPartKeyCoor } from "./Utils";
 import HpPart, { EmptyInput } from "./HpPart";
 import DropdownMenu from "../DropdownMenu";
+import {
+  DropdownProvider,
+  useDropdownContext,
+} from "../DropdownMenu/DropdownContext";
 
 /**
  * Layout represents a row in a form
  */
 const HpLayout: React.FC<formLayout> = ({ parts, columnsAmount }) => {
+  const { setDropdownState } = useDropdownContext();
+
   const partsOccupiedAmount = parts.reduce(
     (accumulator, currentValue) =>
       accumulator + (currentValue.span ?? 1) + (currentValue.skip ?? 0),
@@ -51,7 +57,12 @@ const HpLayout: React.FC<formLayout> = ({ parts, columnsAmount }) => {
           <HpPart
             {...aPart}
             key={aPart.partkey}
-            openpartoptions={(partKey, variant) => {}}
+            openpartoptions={(event, partKey, variant) => {
+              setDropdownState({
+                isOpen: true,
+                screenPosition: { x: event.clientX, y: event.clientY },
+              });
+            }}
           />
         );
       })}
@@ -119,36 +130,99 @@ export default function HpFormsCreation({ formInfo, className = "" }: props) {
       <div
         className={`hp-forms-creation ${className} ${styles["hp-forms-creation"]}`}
       >
-        <PageBubbles
-          pages={form.pages}
-          setPageIndex={(i) => setCurrentPage(i)}
-        />
-        <div className={styles.layout}>
-          {form.pages[currentPage].layouts.map((layout, i) => {
-            const partKeys = layout.parts.reduce(
-              (prevKeys, currVal) => `${prevKeys}-${currVal.partkey}`,
-              ""
-            );
-            return (
-              <HpLayout
-                key={`${i}-${partKeys}`}
-                columnsAmount={layout.columnsAmount}
-                parts={layout.parts}
-              />
-            );
-          })}
-        </div>
-        <DropdownMenu
+        <DropdownProvider
+          initialValues={{
+            isOpen: true,
+            menuOptions: [
+              {
+                type: "title",
+                label: "Weird things..",
+                icon: "/menu-icons/crown-svgrepo-com.svg",
+              },
+              {
+                type: "line-break",
+              },
+              {
+                label: "asd",
+                type: "option",
+                icon: "/menu-icons/crown-svgrepo-com.svg",
+              },
+              {
+                label: "dfg",
+                type: "option",
+                // icon: "/menu-icons/crown-svgrepo-com.svg",
+                onClick: () => {
+                  console.log("Da clickuss!!");
+                },
+              },
+              { type: "break" },
+              {
+                label: "dfg",
+                type: "option",
+                icon: "/menu-icons/crown-svgrepo-com.svg",
+                onClick: () => {
+                  console.log("Da clickuss!!");
+                },
+              },
+            ],
+          }}
+        >
+          <PageBubbles
+            pages={form.pages}
+            setPageIndex={(i) => setCurrentPage(i)}
+          />
+          <div className={styles.layout}>
+            {form.pages[currentPage].layouts.map((layout, i) => {
+              const partKeys = layout.parts.reduce(
+                (prevKeys, currVal) => `${prevKeys}-${currVal.partkey}`,
+                ""
+              );
+              return (
+                <HpLayout
+                  key={`${i}-${partKeys}`}
+                  columnsAmount={layout.columnsAmount}
+                  parts={layout.parts}
+                />
+              );
+            })}
+          </div>
+          {/* <DropdownMenu
           isOpen={true}
           menuOptions={[
+            {
+              type: "title",
+              label: "Weird things..",
+              icon: "/menu-icons/crown-svgrepo-com.svg",
+            },
+            {
+              type: "line-break",
+            },
             {
               label: "asd",
               type: "option",
               icon: "/menu-icons/crown-svgrepo-com.svg",
             },
+            {
+              label: "dfg",
+              type: "option",
+              icon: "/menu-icons/crown-svgrepo-com.svg",
+              onClick: () => {
+                console.log("Da clickuss!!");
+              },
+            },
+            { type: "break" },
+            {
+              label: "dfg",
+              type: "option",
+              icon: "/menu-icons/crown-svgrepo-com.svg",
+              onClick: () => {
+                console.log("Da clickuss!!");
+              },
+            },
           ]}
           screenPosition={{ x: 0, y: 0 }}
-        />
+        /> */}
+        </DropdownProvider>
       </div>
     </FormProvider>
   );

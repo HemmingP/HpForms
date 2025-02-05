@@ -1,8 +1,4 @@
-import {
-  HTMLInputTypeAttribute,
-  InputHTMLAttributes,
-  TextareaHTMLAttributes,
-} from "react";
+import { InputHTMLAttributes, MouseEvent, TextareaHTMLAttributes } from "react";
 
 export interface id {
   id: string;
@@ -22,7 +18,11 @@ export interface emptyProps {
 type TVariant = "input" | "textarea" | "text";
 
 export interface IOptions {
-  openpartoptions: (partkey: number, variant: TVariant) => void;
+  openpartoptions: (
+    event: MouseEvent<HTMLButtonElement>,
+    partkey: number,
+    variant: TVariant
+  ) => void;
 }
 
 export interface inputProps
